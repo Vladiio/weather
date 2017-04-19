@@ -89,8 +89,8 @@ ENV/
 .ropeproject
 
 # OpenWeatherMap files
-api.key
-weather.info
+.api.key
+.weather.info
 
 # README
 README.md
