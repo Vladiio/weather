@@ -91,3 +91,6 @@ ENV/
 # OpenWeatherMap files
 api.key
 weather.info
+
+# README
+README.md
