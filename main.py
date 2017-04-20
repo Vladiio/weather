@@ -1,4 +1,6 @@
+#! /usr/bin/python3
 import json, pickle, os
+from datetime import datetime
 
 import requests
 
@@ -12,10 +14,11 @@ class Weather:
         self.url = ('http://api.openweathermap.org/'
                     'data/2.5/weather?id={id}&appid={key}')
         self.info_pattern = '''
-            It is {description}.
-            Temperature: {temp}C
-            speed of wind: {speed}
-            clouds: {clouds}%
+It is {description}.
+Temperature: {temp} C
+wind speed: {speed} m/s
+cloudiness: {clouds}%
+server was updating: {time}
             '''
 
     def sync(self):
@@ -39,7 +42,7 @@ class Weather:
             data = self.__deserialize_data()
             return json.loads(data)
 
-    def __last_sync_time(self):
+    def last_sync_time(self):
         try:
             time = os.path.getmtime(self.data_filename)
         except OSError:
@@ -66,6 +69,8 @@ def get_info(data):
     temp = str(round(temp))
     wind_speed = str(data['wind']['speed'])
     clouds = str(data['clouds']['all'])
+    time = data['dt']
+    time = datetime.fromtimestamp(time).strftime('%d.%m %H:%M')
     return dict(description=description,
                 temp=temp, speed=wind_speed,
-                clouds=clouds)
+                clouds=clouds, time=time)

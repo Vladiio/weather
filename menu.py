@@ -1,4 +1,7 @@
+#! /usr/bin/python3
+
 import sys
+from datetime import datetime
 
 from main import Weather
 
@@ -10,7 +13,8 @@ class Menu:
         self.choices = {
             '1': self.sync,
             '2': self.display,
-            '3': self.quit,
+            '3': self.sync_time,
+            '4': self.quit,
         }
 
     def run(self):
@@ -18,7 +22,8 @@ class Menu:
             print('''
 1. sync weather data with server
 2. display last synced weather data
-3. quit 
+3. last sync time
+4. quit 
 ''')
             choice = input('Your choice: ')
             action = self.choices.get(choice)
@@ -30,6 +35,11 @@ class Menu:
 
     def display(self):
         self.weather.display()
+
+    def sync_time(self):
+        time = self.weather.last_sync_time()
+        time = datetime.fromtimestamp(time).strftime('%d.%m %H:%M')
+        print(time)
 
     def quit(self):
         sys.exit(0)
