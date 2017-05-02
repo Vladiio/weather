@@ -88,9 +88,10 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# OpenWeatherMap files
+# API files
 .api.key
 .weather.info
+.currency.info
 
 # README
 README.md
