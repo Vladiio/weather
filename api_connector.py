@@ -1,18 +1,17 @@
-#! /usr/bin/python3
-import json, pickle, os
-from datetime import datetime
+import settings
 
 import requests
 
+import json
+import pickle
+import os
+from datetime import datetime
 
-class Weather:
-    def __init__(self, city_id='706483', key_file='.api.key',
-                 data_file='.weather.info'):
-        self.city_id = city_id
-        self.key_filename = key_file
-        self.data_filename = data_file
-        self.url = ('http://api.openweathermap.org/'
-                    'data/2.5/weather?id={id}&appid={key}')
+
+class APIConnector:
+    def __init__(self, data_file, api_url):
+        self.data_file = data_file
+        self.url = api_url
         self.info_pattern = '''
 It is {description}.
 Temperature: {temp} C
@@ -23,7 +22,7 @@ server was updating: {time}
 
     def sync(self):
         response = requests.get(self.url.format(
-                id=self.city_id, key=self.__get_key()))
+            id=self.city_id, key=self.__get_key()))
         if response.status_code == 200:
             self.__serialize_data(response.content)
             print('synced')
@@ -74,3 +73,18 @@ def get_info(data):
     return dict(description=description,
                 temp=temp, speed=wind_speed,
                 clouds=clouds, time=time)
+
+
+class WeatherConnector(APIConnector):
+    def __init__(self):
+        super().__init__(settings.WEATHER_DATA,
+                         settings.WEATHER_URL)
+        self.city_id = settings.CITY_ID
+        self.key_file = settings.WEATHER_KEY
+
+    def sync(self):
+        pass
+
+
+class BPConnector(APIConnector):
+    pass
