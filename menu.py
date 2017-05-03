@@ -56,7 +56,7 @@ cloudiness: {}%
             print('You must sync data with server')
         else:
             print('''
-\tcurrency\tbuy\tsale
+\tcurrency\tbuy\t\tsale
 \tUSD       \t{}\t{}
                     '''.format(data[2]['buy'], data[2]['sale']))
 
