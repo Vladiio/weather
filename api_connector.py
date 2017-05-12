@@ -4,13 +4,18 @@ import json
 import pickle
 import os
 from datetime import datetime
+import abc
 
 
-class APIConnector:
+class APIConnector(metaclass=abc.ABCMeta):
     def __init__(self, data_file, api_url):
         self.data_file = data_file
         self._url = api_url
         self._data = None
+
+    @abc.abstractproperty
+    def url(self):
+        pass
 
     def sync(self):
         response = requests.get(self.url)
